@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content%}
+
+    <h1 class="gen t1">Vota en esta encuesta</h1>
+
+    <div class="container-xl gen box ">
+        <form class="gen container " action="{% url 'polls:vote' question.id %}" method="post">
+            {% csrf_token %}
+            <fieldset class="gen leg">
+                <legend class="gen leg">
+                    <h1 class="gen">{{ question.question_text }}</h1>
+                </legend>
+                {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+                {% for choice in question.choice_set.all %}
+                <div class="elemento">
+                    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
+                    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br>
+                </div>
+                {% endfor %}
+            </fieldset>
+            <input class="gen votar" type="submit" value="Vote">
+        </form>
+    </div>
+{% endblock %}
